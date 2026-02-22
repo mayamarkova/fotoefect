@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивен работен лист: Фотоелектричен ефект</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Анимации за падащите менюта */
+        .hint-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
+            opacity: 0;
+            overflow: hidden;
+        }
+        
+        .hint-content.open {
+            grid-template-rows: 1fr;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+        
+        .hint-inner {
+            min-height: 0;
+        }
+
+        /* Стилизиране на скролбара за iframe */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        .media-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased py-10 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-5xl mx-auto space-y-12">
+
+        <!-- Заглавие -->
+        <header class="text-center space-y-4">
+            <div class="inline-flex items-center justify-center p-3 bg-blue-100 rounded-full mb-2 text-blue-600">
+                <i data-lucide="zap" class="w-8 h-8"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Фотоелектричен ефект</h1>
+            <p class="text-lg md:text-xl text-slate-500 font-medium">Интерактивен работен лист и мултимедийни ресурси</p>
+        </header>
+
+        <!-- СЕКЦИЯ: Мултимедийни материали -->
+        <section class="space-y-6">
+            <div class="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                <i data-lucide="monitor-play" class="text-blue-600 w-7 h-7"></i>
+                <h2 class="text-2xl font-bold text-slate-800">Учебни материали</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- 1. Презентация -->
+                <div class="bg-white rounded-2xl p-5 media-shadow border border-slate-100 flex flex-col group">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2 bg-orange-100 rounded-lg text-orange-600">
+                            <i data-lucide="presentation" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-700">Презентация</h3>
+                    </div>
+                    <div class="w-full aspect-video rounded-xl overflow-hidden bg-slate-50 border border-slate-100 relative mb-4">
+                        <iframe src="https://drive.google.com/file/d/1Apzc7RL6DVZgWMpdI-uyEGL3_BVPHvQ4/preview" class="absolute top-0 left-0 w-full h-full border-0" allowfullscreen></iframe>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1Apzc7RL6DVZgWMpdI-uyEGL3_BVPHvQ4/view?usp=sharing" target="_blank" class="mt-auto w-full py-2.5 px-4 bg-orange-50 hover:bg-orange-100 text-orange-700 font-semibold rounded-xl transition flex items-center justify-center gap-2">
+                        Отвори в нов прозорец <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- 2. Видео -->
+                <div class="bg-white rounded-2xl p-5 media-shadow border border-slate-100 flex flex-col group">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2 bg-red-100 rounded-lg text-red-600">
+                            <i data-lucide="video" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-700">Видео урок</h3>
+                    </div>
+                    <div class="w-full aspect-video rounded-xl overflow-hidden bg-slate-50 border border-slate-100 relative mb-4">
+                        <iframe src="https://drive.google.com/file/d/1tF-GIQbMSbdU4K_Eqptl_FI7-Sk6_Prh/preview" class="absolute top-0 left-0 w-full h-full border-0" allow="autoplay" allowfullscreen></iframe>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1tF-GIQbMSbdU4K_Eqptl_FI7-Sk6_Prh/view?usp=sharing" target="_blank" class="mt-auto w-full py-2.5 px-4 bg-red-50 hover:bg-red-100 text-red-700 font-semibold rounded-xl transition flex items-center justify-center gap-2">
+                        Отвори в нов прозорец <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- 3. Инфографика (Заема пълната ширина на големи екрани или се подравнява хубаво) -->
+                <div class="bg-white rounded-2xl p-5 media-shadow border border-slate-100 flex flex-col lg:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+                            <i data-lucide="image" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-700">Инфографика</h3>
+                    </div>
+                    <div class="w-full h-[500px] rounded-xl overflow-hidden bg-slate-50 border border-slate-100 relative mb-4">
+                        <iframe src="https://drive.google.com/file/d/16Zpxrg6Z0EDvxY7rnf6c9yeP5qU9CDpW/preview" class="absolute top-0 left-0 w-full h-full border-0" allowfullscreen></iframe>
+                    </div>
+                    <a href="https://drive.google.com/file/d/16Zpxrg6Z0EDvxY7rnf6c9yeP5qU9CDpW/view?usp=sharing" target="_blank" class="mt-auto w-full sm:w-auto self-center py-2.5 px-6 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold rounded-xl transition flex items-center justify-center gap-2">
+                        Отвори изображението <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- 4. Аудио файл (Заема пълната ширина) -->
+                <div class="bg-white rounded-2xl p-5 media-shadow border border-slate-100 flex flex-col lg:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2 bg-purple-100 rounded-lg text-purple-600">
+                            <i data-lucide="headphones" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-700">Аудио урок</h3>
+                    </div>
+                    <div class="w-full h-32 rounded-xl overflow-hidden bg-slate-50 border border-slate-100 relative mb-4">
+                        <iframe src="https://drive.google.com/file/d/1aGQd-aVfzr5A5aXCbo2njc31Q14MQheT/preview" class="absolute top-0 left-0 w-full h-full border-0" allow="autoplay" allowfullscreen></iframe>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1aGQd-aVfzr5A5aXCbo2njc31Q14MQheT/view?usp=sharing" target="_blank" class="w-full sm:w-auto self-center py-2.5 px-6 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold rounded-xl transition flex items-center justify-center gap-2">
+                        Чуй в Google Drive <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <p class="text-sm text-slate-400 text-center italic mt-2">
+                *Ако файловете изискват влизане в профил и не се зареждат в прозорчетата, използвайте бутоните за отваряне в нов прозорец.
+            </p>
+        </section>
+
+        <!-- СЕКЦИЯ: Кратка теория -->
+        <section class="bg-white rounded-3xl media-shadow border border-slate-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-5 flex items-center space-x-3">
+                <i data-lucide="book-open" class="text-white w-6 h-6"></i>
+                <h2 class="text-2xl font-bold text-white">Кратка теория</h2>
+            </div>
+            <div class="p-8 space-y-6 text-slate-700 leading-relaxed text-lg">
+                <p>
+                    <strong class="text-slate-900">Определение:</strong> Отделянето на електрони от повърхността на някои метали при облъчването им със светлина се нарича <em class="text-blue-700 font-medium">фотоелектричен ефект (фотоефект)</em>. Открит е през 1887 г. от Хайнрих Херц.
+                </p>
+                <div class="bg-blue-50/50 rounded-2xl p-6 border border-blue-100 shadow-sm">
+                    <h3 class="font-bold text-blue-900 mb-4 flex items-center text-xl">
+                        <i data-lucide="microscope" class="mr-3 w-5 h-5 text-blue-600"></i>
+                        Основни закономерности
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle-2" class="mr-3 w-5 h-5 text-blue-500 shrink-0 mt-0.5"></i>
+                            <span>Броят на отделените фотоелектрони за единица време е <strong class="text-slate-900">правопропорционален на интензитета</strong> на светлината.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle-2" class="mr-3 w-5 h-5 text-blue-500 shrink-0 mt-0.5"></i>
+                            <span>За всеки метал съществува <strong class="text-slate-900">червена граница</strong> (максимална дължина на вълната <span class="italic font-serif">λ<sub>max</sub></span> или минимална честота <span class="italic font-serif">ν<sub>min</sub></span>), при която е възможен ефектът. Ако λ &gt; λ<sub>max</sub>, ефект няма.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle-2" class="mr-3 w-5 h-5 text-blue-500 shrink-0 mt-0.5"></i>
+                            <span>Максималната кинетична енергия <span class="italic font-serif">E<sub>k,max</sub></span> на електроните <strong class="text-slate-900">не зависи</strong> от интензитета на светлината, а нараства линейно с честотата й.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle-2" class="mr-3 w-5 h-5 text-blue-500 shrink-0 mt-0.5"></i>
+                            <span>Фотоефектът протича <strong class="text-slate-900">практически мигновено</strong> (за по-малко от 10⁻⁹ s).</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-r from-slate-50 to-white p-6 rounded-2xl border border-slate-200 flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6 shadow-sm">
+                    <div class="p-3 bg-white rounded-xl shadow-sm border border-slate-100 text-slate-500">
+                        <i data-lucide="calculator" class="w-8 h-8"></i>
+                    </div>
+                    <div>
+                        <strong class="block text-slate-800 text-lg">Закон за запазване на енергията в спирачно поле:</strong>
+                        <div class="bg-white border border-slate-200 rounded-lg px-4 py-2 inline-block mt-3 mb-2 shadow-sm">
+                            <span class="font-mono text-2xl text-blue-700 font-bold">e · U<sub>c</sub> = E<sub>k,max</sub></span>
+                        </div>
+                        <p class="text-slate-500">където <em class="font-serif">e</em> е зарядът на електрона, а <em class="font-serif">U<sub>c</sub></em> е спирачното напрежение.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- СЕКЦИЯ: Въпроси и задачи -->
+        <section class="bg-white rounded-3xl media-shadow border border-slate-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-emerald-500 to-emerald-700 px-8 py-5 flex items-center space-x-3">
+                <i data-lucide="activity" class="text-white w-6 h-6"></i>
+                <h2 class="text-2xl font-bold text-white">Въпроси и задачи</h2>
+            </div>
+            <div class="divide-y divide-slate-100" id="tasks-container">
+                <!-- Генерират се динамично -->
+            </div>
+        </section>
+
+        <!-- СЕКЦИЯ: Тест -->
+        <section class="bg-white rounded-3xl media-shadow border border-slate-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-indigo-500 to-indigo-700 px-8 py-5 flex items-center space-x-3">
+                <i data-lucide="help-circle" class="text-white w-6 h-6"></i>
+                <h2 class="text-2xl font-bold text-white">Тест за проверка на знанията</h2>
+            </div>
+            <div class="p-8 space-y-8" id="quiz-container">
+                <!-- Генерират се динамично -->
+            </div>
+            
+            <div class="bg-slate-50 p-8 border-t border-slate-100">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <button id="check-btn" onclick="checkAnswers()" disabled class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg">
+                        <i data-lucide="check-circle"></i> Провери отговорите
+                    </button>
+                    <p id="quiz-warning" class="text-slate-500 font-medium bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm text-center">
+                        <i data-lucide="info" class="w-4 h-4 inline mr-1 text-indigo-400 mb-0.5"></i> Отговорете на всички въпроси.
+                    </p>
+
+                    <div id="results-panel" class="hidden w-full flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div id="score-display" class="px-8 py-3.5 rounded-xl font-bold text-xl w-full sm:w-auto text-center border shadow-sm transition-all flex items-center justify-center gap-3">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                            <span>Резултат: <span id="score-value" class="text-2xl">0</span> / 7</span>
+                        </div>
+                        <button onclick="resetQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-bold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 text-lg">
+                            <i data-lucide="refresh-ccw" class="w-5 h-5"></i> Опитай отново
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Инициализираме иконките веднага за статичния HTML
+        lucide.createIcons();
+
+        const tasks = [
+            {
+                id: 1,
+                text: "1. Опишете зависимостта на фототока от напрежението (фиг. 3). Какво е ток на насищане и спирачно напрежение?",
+                hint: "Разгледайте графиката (Волтамперна характеристика). Забележете, че при увеличаване на правото напрежение, токът расте до един момент, след което става константен. При подаване на обратно напрежение, токът намалява до нула.",
+                formula: "Няма конкретна формула. Дефиниции:\n• Ток на насищане (Iₙ): Максималният ток, при който всички отделени от катода електрони достигат анода.\n• Спирачно напрежение (U_c): Обратното напрежение, при което дори най-бързите електрони не могат да достигнат анода и фототокът става нула.",
+                why: "Тези понятия описват кинематиката на електроните в електричното поле между катода и анода."
+            },
+            {
+                id: 2,
+                text: "2. При осветяване на фотоклетка от катода се отделят електрони с максимална кинетична енергия 1,5 eV. Колко волта е спирачното напрежение?",
+                hint: "Вспомнете си какво представлява електронволтът (eV). Това е енергията, която един електрон получава или губи при преминаване през потенциална разлика от 1 V.",
+                formula: "E_{k,max} = e · U_c",
+                why: "Тъй като енергията е дадена в електронволти (eV), числената стойност на максималната кинетична енергия съвпада с числената стойност на спирачното напрежение във волтове (V). Следователно U_c = 1,5 V."
+            },
+            {
+                id: 3,
+                text: "3. Колко е максималната кинетична енергия на фотоелектроните, ако спирачното напрежение е 0,8 V?",
+                hint: "Задачата е обратна на задача 2. Използвайте същата логика и връзката между работата на електричното поле и промяната на кинетичната енергия.",
+                formula: "E_{k,max} = e · U_c",
+                why: "Работата на спирачното електрично поле е равна на началната кинетична енергия на най-бързите електрони. Умножаваме заряда на електрона (e) по напрежението (0,8 V) и получаваме енергията директно в електронволти: E_{k,max} = 0,8 eV."
+            },
+            {
+                id: 4,
+                text: "4. Червената граница на фотоефекта за цезиев катод е при дължина на вълната λ_max = 680 nm. Ще предизвика ли фотоефект светлина с честота ν = 5·10¹⁴ Hz?",
+                hint: "За да има фотоефект, честотата на падащата светлина (ν) трябва да е по-голяма от минималната честота (ν_min), отговаряща на червената граница. Първо трябва да намерите ν_min от дадената дължина на вълната.",
+                formula: "1) c = λ · ν\n2) ν > ν_min  или  λ < λ_max",
+                why: "Пресмятаме праговата честота: ν_min = c / λ_max = (3·10⁸ m/s) / (680·10⁻⁹ m) ≈ 4,41·10¹⁴ Hz. Тъй като дадената честота ν = 5·10¹⁴ Hz е по-голяма от ν_min (5 > 4,41), фотоефект ЩЕ се наблюдава."
+            },
+            {
+                id: 5,
+                text: "5. Проучете за други приложения на фотоефекта.",
+                hint: "В учебника е даден пример с алармена система (прекъсване на невидим лъч). Помислете къде другаде светлината се превръща в електричество или се използва за управление.",
+                formula: "Няма формула (изследователска задача).",
+                why: "Слънчеви панели (фотоволтаици), фотоумножители в астрономията, автоматични врати, светломери във фотоапаратите, уреди за нощно виждане."
+            }
+        ];
+
+        const quizQuestions = [
+            { q: "1. Кой физик е открил фотоелектричния ефект през 1887 г.?", o: ["Алберт Айнщайн", "Хайнрих Херц", "Исак Нютон", "Макс Планк"], a: 1 },
+            { q: "2. Какво се случва с тока на насищане, ако увеличим интензитета на светлината?", o: ["Намалява", "Остава непроменен", "Нараства", "Става равен на нула"], a: 2 },
+            { q: "3. От какво зависи максималната кинетична енергия на фотоелектроните?", o: ["От интензитета на светлината", "Само от материала на катода", "От честотата на падащата светлина и материала на катода", "От приложеното право напрежение"], a: 2 },
+            { q: "4. Какво наричаме 'червена граница' на фотоефекта?", o: ["Светлина само с червен цвят", "Максималната честота, при която има фотоефект", "Максималната дължина на вълната, при която все още е възможно отделяне на електрони", "Напрежението, което спира електроните"], a: 2 },
+            { q: "5. Коя от следните формули изразява връзката между спирачното напрежение и енергията?", o: ["E_{k,max} = e / U_c", "e · U_c = E_{k,max}", "U_c = E_{k,max} · e", "E_{k,max} = c / λ"], a: 1 },
+            { q: "6. За колко време след осветяване на повърхността се отделят фотоелектрони?", o: ["След няколко секунди", "След около 1 минута", "Практически едновременно (по-малко от 10⁻⁹ s)", "Зависи от интензитета на светлината"], a: 2 },
+            { q: "7. Ако свържем положителния полюс към катода, а отрицателния към анода, създаваме:", o: ["Ускоряващо поле", "Спирачно поле", "Магнитно поле", "Индукционно поле"], a: 1 }
+        ];
+
+        let userAnswers = {};
+        let isQuizSubmitted = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTasks();
+            renderQuiz();
+            // Инициализация на иконките за динамично генерирания код
+            lucide.createIcons();
+        });
+
+        // ЗАДАЧИ
+        function renderTasks() {
+            const container = document.getElementById('tasks-container');
+            let html = '';
+            
+            tasks.forEach(task => {
+                html += `
+                <div class="p-8 transition hover:bg-slate-50/50">
+                    <p class="text-[1.1rem] font-medium text-slate-800 mb-5 leading-relaxed">${task.text}</p>
+                    <button onclick="toggleHint(${task.id})" class="flex items-center space-x-2 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-4 py-2 rounded-lg font-semibold transition-colors focus:outline-none group">
+                        <i data-lucide="lightbulb" class="w-5 h-5 group-hover:text-emerald-700"></i>
+                        <span id="hint-text-${task.id}">Покажи насоки и решение</span>
+                        <i id="hint-icon-${task.id}" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                    </button>
+                    
+                    <div id="hint-content-${task.id}" class="hint-content">
+                        <div class="hint-inner">
+                            <div class="bg-gradient-to-br from-emerald-50 to-white rounded-2xl border border-emerald-100 p-6 space-y-5 shadow-sm">
+                                <div>
+                                    <strong class="flex items-center text-emerald-800 mb-2 text-lg">
+                                        <i data-lucide="message-square" class="mr-2 w-5 h-5 opacity-70"></i> Насоки за размисъл:
+                                    </strong>
+                                    <p class="text-emerald-900/80 leading-relaxed">${task.hint}</p>
+                                </div>
+                                <div class="pt-4 border-t border-emerald-100/60">
+                                    <strong class="flex items-center text-emerald-800 mb-3 text-lg">
+                                        <i data-lucide="function-square" class="mr-2 w-5 h-5 opacity-70"></i> Формула:
+                                    </strong>
+                                    <div class="font-mono bg-white px-4 py-3 rounded-xl border border-emerald-200 inline-block text-emerald-900 shadow-sm whitespace-pre-line text-[15px]">${task.formula}</div>
+                                </div>
+                                <div class="pt-4 border-t border-emerald-100/60">
+                                    <strong class="flex items-center text-emerald-800 mb-2 text-lg">
+                                        <i data-lucide="check-circle" class="mr-2 w-5 h-5 opacity-70"></i> Решение / Обяснение:
+                                    </strong>
+                                    <p class="text-emerald-900/80 leading-relaxed">${task.why}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function toggleHint(id) {
+            const content = document.getElementById(`hint-content-${id}`);
+            const text = document.getElementById(`hint-text-${id}`);
+            const iconWrapper = document.getElementById(`hint-icon-${id}`);
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                text.textContent = 'Покажи насоки и решение';
+                iconWrapper.innerHTML = '<polyline points="6 9 12 15 18 9"></polyline>'; // chevron-down
+            } else {
+                content.classList.add('open');
+                text.textContent = 'Скрий насоките';
+                iconWrapper.innerHTML = '<polyline points="18 15 12 9 6 15"></polyline>'; // chevron-up
+            }
+        }
+
+        // ТЕСТ
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            let html = '';
+
+            quizQuestions.forEach((q, qIndex) => {
+                html += `<div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="font-bold text-slate-800 text-lg mb-4 flex items-start">
+                        <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-lg flex items-center justify-center mr-3 shrink-0">${qIndex + 1}</span>
+                        <span class="mt-1">${q.q.substring(3)}</span>
+                    </h3>
+                    <div class="space-y-3 pl-11">`;
+                
+                q.o.forEach((opt, oIndex) => {
+                    html += `
+                    <label id="label-q${qIndex}-o${oIndex}" class="flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 border-slate-200 hover:bg-slate-50/80 group">
+                        <input type="radio" name="q${qIndex}" value="${oIndex}" onchange="selectOption(${qIndex}, ${oIndex})" class="w-5 h-5 text-indigo-600 border-slate-300 focus:ring-indigo-500 rounded-full">
+                        <span class="ml-4 flex-1 text-slate-700 group-hover:text-slate-900 font-medium">${opt}</span>
+                        <span id="icon-q${qIndex}-o${oIndex}" class="ml-2 w-6 h-6 flex items-center justify-center"></span>
+                    </label>`;
+                });
+
+                html += `</div></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function selectOption(qIndex, oIndex) {
+            if (isQuizSubmitted) return;
+            userAnswers[qIndex] = oIndex;
+
+            for (let i = 0; i < 4; i++) {
+                const label = document.getElementById(`label-q${qIndex}-o${i}`);
+                if (i === oIndex) {
+                    label.className = "flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 border-indigo-500 bg-indigo-50 text-indigo-800 shadow-sm";
+                } else {
+                    label.className = "flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 border-slate-200 hover:bg-slate-50/80 group";
+                }
+            }
+            checkCompletion();
+        }
+
+        function checkCompletion() {
+            const checkBtn = document.getElementById('check-btn');
+            const warning = document.getElementById('quiz-warning');
+            
+            if (Object.keys(userAnswers).length === quizQuestions.length) {
+                checkBtn.disabled = false;
+                warning.classList.add('hidden');
+            }
+        }
+
+        function checkAnswers() {
+            isQuizSubmitted = true;
+            let score = 0;
+
+            quizQuestions.forEach((q, qIndex) => {
+                const selected = userAnswers[qIndex];
+                const correct = q.a;
+
+                const radios = document.querySelectorAll(`input[name="q${qIndex}"]`);
+                radios.forEach(r => r.disabled = true);
+
+                for (let i = 0; i < 4; i++) {
+                    const label = document.getElementById(`label-q${qIndex}-o${i}`);
+                    label.className = "flex items-center p-4 border rounded-xl transition-all duration-200 border-slate-100 opacity-50 cursor-default bg-slate-50/50";
+                }
+
+                if (selected === correct) {
+                    score++;
+                    const label = document.getElementById(`label-q${qIndex}-o${selected}`);
+                    label.className = "flex items-center p-4 border-2 rounded-xl transition-all duration-200 border-emerald-500 bg-emerald-50 text-emerald-900 cursor-default font-bold shadow-sm";
+                    document.getElementById(`icon-q${qIndex}-o${selected}`).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+                } else {
+                    const labelWrong = document.getElementById(`label-q${qIndex}-o${selected}`);
+                    labelWrong.className = "flex items-center p-4 border-2 rounded-xl transition-all duration-200 border-red-400 bg-red-50 text-red-900 cursor-default shadow-sm";
+                    document.getElementById(`icon-q${qIndex}-o${selected}`).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
+
+                    const labelRight = document.getElementById(`label-q${qIndex}-o${correct}`);
+                    labelRight.className = "flex items-center p-4 border-2 rounded-xl transition-all duration-200 border-emerald-500 bg-emerald-50 text-emerald-900 cursor-default font-bold shadow-sm";
+                    document.getElementById(`icon-q${qIndex}-o${correct}`).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+                }
+            });
+
+            document.getElementById('check-btn').classList.add('hidden');
+            document.getElementById('results-panel').classList.remove('hidden');
+            document.getElementById('results-panel').classList.add('flex');
+            
+            const scoreDisplay = document.getElementById('score-display');
+            document.getElementById('score-value').innerText = score;
+
+            if (score === quizQuestions.length) {
+                scoreDisplay.className = "px-8 py-3.5 rounded-xl font-bold text-xl w-full sm:w-auto text-center border-2 border-emerald-200 bg-emerald-100 text-emerald-800 shadow-sm transition-all flex items-center justify-center gap-3";
+                scoreDisplay.querySelector('i').setAttribute('data-lucide', 'trophy');
+            } else {
+                scoreDisplay.className = "px-8 py-3.5 rounded-xl font-bold text-xl w-full sm:w-auto text-center border-2 border-indigo-200 bg-indigo-50 text-indigo-800 shadow-sm transition-all flex items-center justify-center gap-3";
+            }
+            lucide.createIcons(); // Обновяваме иконките в панела за резултати
+        }
+
+        function resetQuiz() {
+            isQuizSubmitted = false;
+            userAnswers = {};
+            
+            renderQuiz();
+            lucide.createIcons();
+            
+            document.getElementById('check-btn').classList.remove('hidden');
+            document.getElementById('check-btn').disabled = true;
+            document.getElementById('quiz-warning').classList.remove('hidden');
+            
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('results-panel').classList.remove('flex');
+        }
+    </script>
+</body>
+</html>
+```
